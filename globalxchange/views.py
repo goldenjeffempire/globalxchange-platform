@@ -2,8 +2,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from .models import Product, Order
 from django.http import HttpResponse
+
+login_required
+def place_order(request):
+    if request.method == 'POST':
+        # Create an order with a status of 'Pending'
+        Order.objects.create(user=request.user, status='Pending')
+        return redirect('order_history')
+    return render(request, 'place_order.html')
+
+@login_required
+def order_history(request):
+    # Fetch orders related to the current user
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'order_history.html', {'orders': orders})
 
 def home(request):
     products = Product.objects.all()
@@ -47,6 +62,15 @@ def login_view(request):
 def profile(request):
     return render(request, 'profile.html')
 
+
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+def search_products(request):
+    query = request.GET.get('q')
+    if query:
+        products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    else:
+        products = Product.objects.all()
+    return render(request, 'search_results.html', {'products': products})

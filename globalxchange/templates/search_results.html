@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - {{ product.price }} | <a href="{% url 'product_detail' product.id %}">View</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

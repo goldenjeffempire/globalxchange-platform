@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order History</title>
+</head>
+<body>
+    <h1>Your Order History</h1>
+    <ul>
+        {% for order in orders %}
+            <li>Order ID: {{ order.id }} | Status: {{ order.status }} | Date: {{ order.created_at }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

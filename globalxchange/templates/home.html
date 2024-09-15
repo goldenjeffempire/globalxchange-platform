@@ -2,13 +2,15 @@
 <html>
 <head>
     <title>GlobalXchange Home</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
 </head>
 <body>
     <h1>Welcome to GlobalXchange</h1>
     <ul>
         {% for product in products %}
             <li>
-                <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a> - {{ product.price }}
+                <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a>
             </li>
         {% endfor %}
     </ul>
