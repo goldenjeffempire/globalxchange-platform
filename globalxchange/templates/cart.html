@@ -6,5 +6,10 @@
 <body>
     <h1>Your Cart</h1>
     <!-- Cart items will go here -->
+    <form method="post" action="{% url 'cart' %}">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <button type="submit">Add to Cart</button>
+    </form>
 </body>
 </html>
