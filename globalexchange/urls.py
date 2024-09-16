@@ -14,6 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from globalxchange import views
@@ -30,4 +33,4 @@ urlpatterns = [
     path('place_order/', views.place_order, name='place_order'),
     path('order_history/', views.order_history, name='order_history'),
     path('search/', views.search_products, name='search_products'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
