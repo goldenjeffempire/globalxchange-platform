@@ -3,13 +3,19 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .models import Product, Order
+from .models import Product, Order, OrderItem
 from .forms import SignUpForm
 
 @login_required
 def place_order(request):
     if request.method == 'POST':
-        Order.objects.create(user=request.user, status='Pending')
+        # Assuming items are stored in session for simplicity
+        cart = request.session.get('cart', [])
+        order = Order.objects.create(user=request.user, status='Pending')
+        for item_id in cart:
+            product = get_object_or_404(Product, id=item_id)
+            OrderItem.objects.create(order=order, product=product)
+        request.session['cart'] = []
         return redirect('order_history')
     return render(request, 'place_order.html')
 
@@ -42,6 +48,11 @@ def cart(request):
         product_id = request.POST.get('product_id')
         product = get_object_or_404(Product, id=product_id)
         # Add product to cart logic here
+        # Example: Append to session cart
+        cart = request.session.get('cart', [])
+        if product_id not in cart:
+            cart.append(product_id)
+            request.session['cart'] = cart
         return redirect('cart')
     return render(request, 'cart.html')
 
