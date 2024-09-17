@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Order History</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Order History{% endblock %}
+
+{% block content %}
     <h1>Your Order History</h1>
     <ul>
         {% for order in orders %}
             <li>Order ID: {{ order.id }} | Status: {{ order.status }} | Date: {{ order.created_at }}</li>
+        {% empty %}
+            <li>No orders found.</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}

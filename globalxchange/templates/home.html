@@ -1,19 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>GlobalXchange Home</title>
-    {% load static %}
-    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-</head>
-<body>
-    <h1>Welcome to GlobalXchange</h1>
-    <ul>
-        {% for product in products %}
-            <li>
-                <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'signup' %}">Sign Up</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>GlobalXchange Home</title>
+        <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    </head>
+    <body>
+        <h2>Welcome to GlobalXchange</h2>
+        <p>Find and order the best products here.</p>
+
+        <ul>
+            {% for product in products %}
+                <li>
+                    <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'signup' %}">Sign Up</a>
+    </body>
+    </html>
+{% endblock %}
