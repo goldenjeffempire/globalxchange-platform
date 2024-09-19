@@ -7,7 +7,7 @@
     <ul class="list-group">
         {% for order in orders %}
             <li class="list-group-item">
-                Order ID: {{ order.id }} | Product: {{ order.product.name }} | Quantity: {{ order.quantity }} | Status: {{ order.status }} | Date: {{ order.ordered_at }}
+                Order ID: {{ order.id }} | Product: {{ order.product.name }} | Quantity: {{ order.quantity }} | Ordered At: {{ order.ordered_at }}
             </li>
         {% empty %}
             <li class="list-group-item">No orders found.</li>

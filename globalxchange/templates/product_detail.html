@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ product.name }}{% endblock %}
+{% block title %}Product Detail{% endblock %}
 
 {% block content %}
-<h1>{{ product.name }}</h1>
-<p>{{ product.description }}</p>
-<p>Price: ${{ product.price }}</p>
+<h2>{{ product.name }}</h2>
+<p>Description: {{ product.description }}</p>
+<p>Price: {{ product.price }}</p>
 
-<form method="post" action="{% url 'cart' %}">
+<form method="post" action="{% url 'create_order' product.pk %}">
     {% csrf_token %}
-    <input type="hidden" name="product_id" value="{{ product.id }}">
-    <button type="submit">Add to Cart</button>
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Order</button>
 </form>
 {% endblock %}

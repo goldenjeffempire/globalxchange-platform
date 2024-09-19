@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.conf import settings
 from .models import Product, Order, OrderItem
-from .forms import SignUpForm
+from .forms import SignUpForm, OrderForm
 
 # Home view
 def home(request):
@@ -13,11 +13,13 @@ def home(request):
     return render(request, 'home.html', {'products': products})
 
 # Product list view
+@login_required(login_url=settings.LOGIN_URL)
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'product_list.html', {'products': products})
 
 # Product detail view
+@login_required(login_url=settings.LOGIN_URL)
 def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     return render(request, 'product_detail.html', {'product': product})
@@ -45,6 +47,22 @@ def place_order(request, product_id=None):
             return redirect('order_history')
         return render(request, 'place_order.html')
 
+# Create an order (similar to place order but with an OrderForm)
+@login_required(login_url=settings.LOGIN_URL)
+def create_order(request, pk):
+    product = Product.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user = request.user
+            order.product = product
+            order.save()
+            return redirect('order_history')
+    else:
+        form = OrderForm()
+    return render(request, 'create_order.html', {'form': form, 'product': product})
+
 # View user's order history
 @login_required(login_url=settings.LOGIN_URL)
 def order_history(request):
@@ -52,6 +70,7 @@ def order_history(request):
     return render(request, 'order_history.html', {'orders': orders})
 
 # Cart view to add items to session-based cart
+@login_required(login_url=settings.LOGIN_URL)
 def cart(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
@@ -79,24 +98,23 @@ def login_view(request):
             return redirect('home')
     else:
         form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'registration/login.html', {'form': form})
 
 # Logout view
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')
 
 # Sign-up view
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
+            form.save()
+            return redirect('login')
     else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
 
 # Profile view
 @login_required(login_url=settings.LOGIN_URL)
@@ -107,4 +125,4 @@ def profile(request):
 @login_required(login_url=settings.LOGIN_URL)
 def some_view(request):
     # Your view logic here
-    return render(request, 'some_template.html')
+    return render(request, 'some_template.html')  # Replace 'some_template.html' with your template
