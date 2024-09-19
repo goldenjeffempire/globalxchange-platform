@@ -6,7 +6,7 @@
     <title>{% block title %}GlobalXchange{% endblock %}</title>
     
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
     {% load static %}
@@ -19,6 +19,9 @@
         <a class="navbar-brand" href="{% url 'home' %}">GlobalXchange</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'order_history' %}">Order History</a>
                 </li>

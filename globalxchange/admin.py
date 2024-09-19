@@ -1,16 +1,16 @@
 from django.contrib import admin
-from .models import Order, Product, OrderItem 
+from .models import Product, Order, OrderItem
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'created_at')
+    list_display = ('name', 'description', 'price', 'created_at')  # Added 'created_at'
     search_fields = ('name', 'description')
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created_at', 'status')
-    list_filter = ('status', 'created_at', 'user')
-    search_fields = ('user__username', 'items__product__name')
+    list_display = ('user', 'product', 'quantity', 'ordered_at', 'status')  # Added 'status'
+    list_filter = ('status', 'ordered_at', 'user')
+    search_fields = ('user__username', 'product__name')
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):

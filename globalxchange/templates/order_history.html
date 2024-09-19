@@ -3,14 +3,14 @@
 {% block title %}Order History{% endblock %}
 
 {% block content %}
-    <h1>Your Order History</h1>
-    <ul class="list-group">
-        {% for order in orders %}
-            <li class="list-group-item">
-                Order ID: {{ order.id }} | Product: {{ order.product.name }} | Quantity: {{ order.quantity }} | Ordered At: {{ order.ordered_at }}
-            </li>
-        {% empty %}
-            <li class="list-group-item">No orders found.</li>
-        {% endfor %}
-    </ul>
+<h2>Order History</h2>
+<ul class="list-group">
+    {% for order in orders %}
+        <li class="list-group-item">
+            Order ID: {{ order.id }} | Product: {{ order.product.name }} | Quantity: {{ order.quantity }} | Ordered At: {{ order.ordered_at }}
+        </li>
+    {% empty %}
+        <li class="list-group-item">No orders yet.</li>
+    {% endfor %}
+</ul>
 {% endblock %}
