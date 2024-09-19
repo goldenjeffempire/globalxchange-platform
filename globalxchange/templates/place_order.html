@@ -1,9 +1,16 @@
 {% extends "base.html" %}
+
 {% block title %}Place Order{% endblock %}
+
 {% block content %}
     <h1>Place Order</h1>
+    <h2>Order {{ product.name }}</h2>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Confirm Order</button>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="1" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Confirm Order</button>
     </form>
 {% endblock %}

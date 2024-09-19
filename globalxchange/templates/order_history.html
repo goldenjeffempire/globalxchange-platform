@@ -1,14 +1,16 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}Order History{% endblock %}
 
 {% block content %}
     <h1>Your Order History</h1>
-    <ul>
+    <ul class="list-group">
         {% for order in orders %}
-            <li>Order ID: {{ order.id }} | Status: {{ order.status }} | Date: {{ order.created_at }}</li>
+            <li class="list-group-item">
+                Order ID: {{ order.id }} | Product: {{ order.product.name }} | Quantity: {{ order.quantity }} | Status: {{ order.status }} | Date: {{ order.ordered_at }}
+            </li>
         {% empty %}
-            <li>No orders found.</li>
+            <li class="list-group-item">No orders found.</li>
         {% endfor %}
     </ul>
 {% endblock %}
