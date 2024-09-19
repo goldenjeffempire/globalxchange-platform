@@ -17,19 +17,41 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{% url 'home' %}">GlobalXchange</a>
-        <!-- Navbar content here -->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'order_history' %}">Order History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'search_products' %}">Search</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
 
     <header class="bg-light py-2">
         <div class="container">
-            <nav>
-                <a class="nav-link" href="{% url 'home' %}">Home</a>
-                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                <a class="nav-link" href="{% url 'cart' %}">Cart</a>
-                <a class="nav-link" href="{% url 'order_history' %}">Order History</a>
-                <a class="nav-link" href="{% url 'search_products' %}">Search</a>
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-            </nav>
+            <h1>Welcome to GlobalXchange</h1>
         </div>
     </header>
 

@@ -1,9 +1,29 @@
+/* globalxchange/static/css/styles.css */
+
+/* General Body Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px 0; /* Combine top padding from first style */
 }
 
+/* Navbar */
+.navbar {
+    margin-bottom: 20px;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* List Group */
+.list-group-item {
+    margin-bottom: 10px;
+}
+
+/* Header */
 header {
     background-color: #333;
     color: white;
@@ -15,6 +35,7 @@ header h1 {
     font-size: 24px;
 }
 
+/* Navigation Links */
 nav a {
     color: white;
     margin: 0 15px;
@@ -25,6 +46,7 @@ nav a:hover {
     text-decoration: underline;
 }
 
+/* Footer */
 footer {
     background-color: #333;
     color: white;
@@ -35,6 +57,7 @@ footer {
     bottom: 0;
 }
 
+/* Main Content */
 main {
     padding: 20px;
 }
