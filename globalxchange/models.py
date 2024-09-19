@@ -14,6 +14,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default='Pending')
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return f'Order {self.id} by {self.user.username}'

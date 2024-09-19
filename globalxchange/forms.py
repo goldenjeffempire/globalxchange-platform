@@ -15,4 +15,4 @@ class SignUpForm(UserCreationForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['quantity']
+        fields = ['user', 'status', 'quantity']
