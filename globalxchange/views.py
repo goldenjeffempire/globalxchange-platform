@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.conf import settings
 from .models import Product, Order, OrderItem
 from .forms import SignUpForm
 
@@ -22,7 +23,7 @@ def product_detail(request, product_id):
     return render(request, 'product_detail.html', {'product': product})
 
 # Place an order for a specific product
-@login_required
+@login_required(login_url=settings.LOGIN_URL)
 def place_order(request, product_id=None):
     if product_id:
         product = get_object_or_404(Product, pk=product_id)
@@ -45,7 +46,7 @@ def place_order(request, product_id=None):
         return render(request, 'place_order.html')
 
 # View user's order history
-@login_required
+@login_required(login_url=settings.LOGIN_URL)
 def order_history(request):
     orders = Order.objects.filter(user=request.user)
     return render(request, 'order_history.html', {'orders': orders})
@@ -98,6 +99,12 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 # Profile view
-@login_required
+@login_required(login_url=settings.LOGIN_URL)
 def profile(request):
     return render(request, 'profile.html')
+
+# Example of a protected view
+@login_required(login_url=settings.LOGIN_URL)
+def some_view(request):
+    # Your view logic here
+    return render(request, 'some_template.html')
