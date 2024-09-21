@@ -7,10 +7,47 @@ from django.conf import settings
 from .models import Product, Order, OrderItem
 from .forms import SignUpForm, OrderForm
 
+# Custom error handlers
+handler404 = 'django.views.defaults.page_not_found'
+handler500 = 'django.views.defaults.server_error'
+
 # Home view
 def home(request):
     products = Product.objects.all()
     return render(request, 'home.html', {'products': products})
+
+# User signup view
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+# User login view
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
+
+# User logout view
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+# User profile view
+@login_required(login_url=settings.LOGIN_URL)
+def profile(request):
+    return render(request, 'profile.html')
 
 # Product list view
 @login_required(login_url=settings.LOGIN_URL)
@@ -50,7 +87,7 @@ def place_order(request, product_id=None):
 # Create an order (similar to place order but with an OrderForm)
 @login_required(login_url=settings.LOGIN_URL)
 def create_order(request, pk):
-    product = Product.objects.get(pk=pk)
+    product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
@@ -87,39 +124,6 @@ def search_products(request):
     query = request.GET.get('q')
     products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query)) if query else Product.objects.all()
     return render(request, 'search_results.html', {'products': products})
-
-# Login view
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'registration/login.html', {'form': form})
-
-# Logout view
-def logout_view(request):
-    logout(request)
-    return redirect('login')
-
-# Sign-up view
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
-
-# Profile view
-@login_required(login_url=settings.LOGIN_URL)
-def profile(request):
-    return render(request, 'profile.html')
 
 # Example of a protected view
 @login_required(login_url=settings.LOGIN_URL)
