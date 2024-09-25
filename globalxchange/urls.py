@@ -2,6 +2,7 @@ from django.conf.urls import handler404, handler500
 from django.urls import path
 from . import views
 from .views import create_order
+from . import stripe_views
 
 handler404 = 'django.views.defaults.page_not_found'
 handler500 = 'django.views.defaults.server_error'
@@ -20,4 +21,7 @@ urlpatterns = [
     path('orders/create/<int:pk>/', views.create_order, name='create_order'),  # Create order
     path('search/', views.search_products, name='search_products'),  # Search products
     path('some_view/', views.some_view, name='some_view'),  # Example protected view
+    path('create-checkout-session/', stripe_views.create_checkout_session, name='create-checkout-session'),
+    path('success/', stripe_views.success, name='success'),
+    path('cancel/', stripe_views.cancel, name='cancel'),
 ]

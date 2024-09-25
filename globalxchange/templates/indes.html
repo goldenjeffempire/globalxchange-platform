@@ -1,0 +1,24 @@
+<!-- templates/index.html -->
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  var stripe = Stripe('pk_test_51Q1hTSRr0rRj6c16u29Z8vQ1f6XP170PM4j0mt2BAkiPuOGzqkZZOE3NqZODgwUu6jfX0xBIZFa5mSCFHbAy1lzO00DQzUsrRm');
+  var checkoutButton = document.getElementById('checkout-button');
+
+  checkoutButton.addEventListener('click', function () {
+    fetch('/create-checkout-session/', {
+      method: 'POST',
+    })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (sessionId) {
+      return stripe.redirectToCheckout({ sessionId: sessionId });
+    })
+    .then(function (result) {
+      if (result.error) {
+        alert(result.error.message);
+      }
+    });
+  });
+</script>
